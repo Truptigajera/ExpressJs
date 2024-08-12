@@ -1,7 +1,10 @@
+ //PRODUCT TASK 10/08/2024
+ 
+ 
  const express = require("express");
  const morgan = require("morgan");
  const app = express();
- const users = require("./friend.json");
+ const products = require("./product.json");
 //  console.log(users);
 
 app.use(morgan("dev"));
@@ -15,55 +18,55 @@ app.get("/", (req,res)=>{
   //CRUD
   //Creat User
 
-  app.post("/user", (req,res)=>{
+  app.post("/product", (req,res)=>{
     // console.log(req.body);  
-    users.push(req.body);
+    products.push(req.body);
     res.json({message:"user added successfully"});
   });
 
   //read - get all users
 
-  app.get("/user", (req,res)=>{
-      res.json(users)
+  app.get("/product", (req,res)=>{
+      res.json(products)
       });
 
   //get single user
 
-  app.get("/user/:id",(req,res)=>{
+  app.get("/product/:id",(req,res)=>{
     let id= +req.params.id;
-    let item = users.find((user)=>user.id === id)
+    let item = products.find((product)=>product.id === id)
     res.json(item);
   });
 
   //Replace data- PUT
-  app.put("/user/:id",(req,res)=>{
+  app.put("/product/:id",(req,res)=>{
     let id= +req.params.id;
-    let userIndex = users.findIndex((item)=> item.id === id);
-    users.splice(userIndex,1,req.body);
+    let productIndex = products.findIndex((item)=> item.id === id);
+    products.splice(productIndex,1,req.body);
     res.json({ message: "User has been Replaced"})
   });
 
   //update Data - Patch
-  app.patch("/user/:id", (req,res)=>{
+  app.patch("/product/:id", (req,res)=>{
     let id = +req.params.id;
-    let userIndex = users.findIndex((item)=>item.id === id);
-    let user = users[userIndex];
-    users.splice(userIndex,1,{...user, ...req.body});
+    let productIndex =products.findIndex((item)=>item.id === id);
+    let product = products[productIndex];
+    products.splice(productIndex,1,{...product, ...req.body});
     res.json({message :"User has been successfully added"});
   });
 
   //Delete data- Delete
-  app.delete("/user/:id",(req,res)=>{
+  app.delete("/product/:id",(req,res)=>{
     let id= +req.params.id;
-    let userIndex = users.findIndex((item)=> item.id === id);
-    users.splice(userIndex,1);
+    let productIndex = products.findIndex((item)=> item.id === id);
+    products.splice(productIndex,1);
     res.json({ message: "User Delete successfully"})
   });
 
   
 
-  app.listen(5050,()=>{
-    console.log(`server start at http://localhost:5050`);
+  app.listen(5055,()=>{
+    console.log(`server start at http://localhost:5055`);
     
   });
 
