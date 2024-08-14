@@ -12,15 +12,15 @@ const{
 
 productRoutes.post("/",addNewproduct);
 
-productRoutes.get("/",getAllproduct);
+// productRoutes.get("/",getAllproduct);
 
-productRoutes.get("/:id",getproduct);
+// productRoutes.get("/:id",getproduct);
 
-productRoutes.put("/:id",replaceproduct);
+// productRoutes.put("/:id",replaceproduct);
 
-productRoutes.patch("/:id",updateproduct);
+// productRoutes.patch("/:id",updateproduct);
 
-productRoutes.delete("/:id",deleteproduct);
+// productRoutes.delete("/:id",deleteproduct);
 
 module.exports = productRoutes;
 
