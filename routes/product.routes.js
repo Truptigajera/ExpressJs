@@ -12,9 +12,9 @@ const{
 
 productRoutes.post("/",addNewproduct);
 
-// productRoutes.get("/",getAllproduct);
+productRoutes.get("/",getAllproduct);
 
-// productRoutes.get("/:id",getproduct);
+productRoutes.get("/get-product",getproduct);
 
 // productRoutes.put("/:id",replaceproduct);
 

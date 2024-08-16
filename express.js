@@ -19,6 +19,8 @@ app.get("/", (req,res)=>{
   res.send("welcome to Express Server");
   });
 
+
+  
 app.use("/api/product",productRoutes); 
 
   app.listen(5055,()=>{
