@@ -30,4 +30,9 @@ app.use("/api/product",productRoutes);
   });
 
 
+  //git checkout -b name
+  //git add .
+  //git commit -m ""
+  //git push -u origin branchname
+
   

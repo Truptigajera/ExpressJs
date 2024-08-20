@@ -4,7 +4,6 @@ const{
     addNewproduct,
     getAllproduct,
     getproduct,
-    replaceproduct,
     updateproduct,
     deleteproduct
 
@@ -16,11 +15,9 @@ productRoutes.get("/",getAllproduct);
 
 productRoutes.get("/get-product",getproduct);
 
-// productRoutes.put("/:id",replaceproduct);
+productRoutes.put("/",updateproduct);
 
-// productRoutes.patch("/:id",updateproduct);
-
-// productRoutes.delete("/:id",deleteproduct);
+productRoutes.delete("/",deleteproduct);
 
 module.exports = productRoutes;
 
