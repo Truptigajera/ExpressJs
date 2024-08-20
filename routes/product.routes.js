@@ -1,7 +1,7 @@
 const express = require("express");
 const productRoutes = express.Router();
 const{
-    addNewproduct,
+    addNewProduct,
     getAllproduct,
     getproduct,
     updateproduct,
@@ -9,13 +9,13 @@ const{
 
 }= require("../controller/product.controller");
 
-productRoutes.post("/",addNewproduct);
+productRoutes.post("/",addNewProduct);
 
 productRoutes.get("/",getAllproduct);
 
-productRoutes.get("/get-product",getproduct);
+// productRoutes    .get("/get-product",getproduct);
 
-productRoutes.put("/",updateproduct);
+// productRoutes.put("/",updateproduct);
 
 productRoutes.delete("/",deleteproduct);
 
