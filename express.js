@@ -4,11 +4,14 @@
  const app = express();
  const mongoose = require("mongoose");
  const productRoutes = require("./routes/product.routes");
+ const userRoutes = require("./routes/user.routes");
+ 
 //  console.log(users);
 
 require('dotenv').config()
-port=process.env.port
+const port=process.env.PORT
 const url = process.env.MONGO_URI
+
 
 
 mongoose
@@ -27,10 +30,11 @@ app.get("/", (req,res)=>{
 
   
 app.use("/api/product",productRoutes); 
+app.use("/api/user",userRoutes);
 
   app.listen(port,()=>{
     //Database connection    
-    console.log(`server start at http://localhost:5055`);
+    console.log(`server start at http://localhost:${port}`);
     
   });
 
