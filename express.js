@@ -8,11 +8,11 @@
 
 require('dotenv').config()
 port=process.env.port
-const uri = process.env.MONGO_URI
-console.log("Hii");
+const url = process.env.MONGO_URI
+
 
 mongoose
-.connect(uri)
+.connect(url)
 .then(()=> console.log(`Database connection established success....`))
 .catch(err => console.log(err));
 
