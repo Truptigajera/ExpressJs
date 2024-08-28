@@ -8,10 +8,15 @@ exports.verifyToken = async (req,res,next)=>{
             return res.json({message:'not authorized'});
         let token = authorization.split(' ')[1];
         let {userId} = await jwt.verify(token,process.env.JWT_SECRET);
-        let user = await User.findOne({_id:userId,isDelete:false})
-        if(!user)
-            return res.json({message:'user not found'})
-        req.user=user;
+        // let user = await User.findOne({_id:userId,isDelete:false})
+        if(!userId){
+            return res.status(401).json({messae:"unauthorized"});
+        }
+        let user = await User.findOne({_id:payload.userId,isDelete:false});
+        if(!user){
+            return res.status(404).json({_id:payload.userId,isDelete:false});
+        }
+        req.user = user;
         next();
     }catch (err) {
         console.log(err);
