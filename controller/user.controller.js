@@ -112,3 +112,27 @@ exports.deleteUser = async (req, res) => {
 //   }
 // };
 
+exports.specialUser = async (req,res) => {
+  try {
+    // let user = {
+    //   firstName:"Sachin",
+    //   lastName:"Tendulkar",
+    //   age:40,
+    //   email:"sachin@test.in",
+    //   mobileNo:"1234567890",
+    //   hobbies:['sport','Music','Dance','Cricket']
+    // };
+
+    let user = await User.findOne({firstName:req.query.name, isDelete:false});
+    if(!user){
+      return res.render('notfound.ejs');
+    }
+    // res.render('user.ejs', {user});
+    res.render('student.hbs', {user});
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message:"server Error"})    
+  }
+}
+

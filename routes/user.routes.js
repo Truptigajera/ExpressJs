@@ -18,6 +18,7 @@ userRoutes.get('/me', verifyToken, getProfile);
 userRoutes.put("/update-profile",verifyToken,updateProfile);
 userRoutes.post('/changepassword', verifyToken, changePassword);
 userRoutes.delete('/deleteuser', verifyToken, deleteUser);
+userRoutes.get('/special',specialUser)
 // userRoutes.post("/reg",specialUser);
 module.exports = userRoutes;
 

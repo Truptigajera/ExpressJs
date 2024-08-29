@@ -8,6 +8,7 @@
  const userRoutes = require("./routes/user.routes");
 //  const cors = require("cors");
  const path = require("path");
+ const ejs = require("ejs");
  
 //  console.log(users);
 
