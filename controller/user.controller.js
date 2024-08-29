@@ -69,3 +69,46 @@ exports.updateProfile = async (req, res) => {
     res.status(500).json({ message: "server Error" });
   }
 };
+
+exports.changePassword = async (req, res) => {
+  try {
+      const { currentpassword, newpassword, confirmpassword } = req.body;
+      let user = req.user;
+      if (!currentpassword || !newpassword || !confirmpassword) return res.json({ message: 'provide all passwords...' });
+      if (newpassword !== confirmpassword) return res.json({ message: 'confirmpassword not matched...' });
+      let matchpassword = await bcrypt.compare(currentpassword, user.password);
+      if (!matchpassword) return res.status(400).json({ message: 'Incorrect currentpassword...' });
+      let hashpasssword = await bcrypt.hash(newpassword, 10);
+      user = await User.findByIdAndUpdate(user._id, { $set: { password: hashpasssword } }, { new: true });
+      res.status(200).json({ message: 'password changed successfully...' });
+  } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'internal server error...' });
+  }
+};
+
+// --- hard delete
+exports.deleteUser = async (req, res) => {
+    try {
+      let user = req.user;
+        // user = await User.deleteOne({ _id: req.query.id });
+        user = await User.findByIdAndDelete(user._id);
+        res.status(200).json({ message: 'user deleted successfully...' });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'internal server error...' });
+    }
+};
+
+// --- soft delete
+// exports.deleteUser = async (req, res) => {
+//   try {
+//       let user = req.user;
+//       user = await User.findByIdAndUpdate(user._id, { $set: { isDelete: true } }, { new: true });
+//       res.status(200).json({ message: 'user deleted successfully...' });
+//   } catch (error) {
+//       console.log(error);
+//       res.status(500).json({ message: 'internal server error...' });
+//   }
+// };
+

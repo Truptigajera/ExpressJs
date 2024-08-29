@@ -12,6 +12,7 @@ exports.verifyToken = async (req,res,next)=>{
         if(!userId){
             return res.status(401).json({messae:"unauthorized"});
         }
+        let payload = await jwt.verify(token, process.env.JWT_SECRET);
         let user = await User.findOne({_id:payload.userId,isDelete:false});
         if(!user){
             return res.status(404).json({_id:payload.userId,isDelete:false});

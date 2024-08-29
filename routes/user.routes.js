@@ -5,6 +5,8 @@ const {
     loginUser,
     getProfile,
     updateProfile,
+    changePassword,
+    deleteUser,
      specialUser
 } = require("../controller/user.controller");
 const { verifyToken } = require('../helper/verifyToken');
@@ -14,12 +16,9 @@ userRoutes.post("/register", upload.single('profileImage'), registerUser);
 userRoutes.post("/login", loginUser);
 userRoutes.get('/me', verifyToken, getProfile);
 userRoutes.put("/update-profile",verifyToken,updateProfile);
+userRoutes.post('/changepassword', verifyToken, changePassword);
+userRoutes.delete('/deleteuser', verifyToken, deleteUser);
 // userRoutes.post("/reg",specialUser);
-
-
-
-
-
 module.exports = userRoutes;
 
 

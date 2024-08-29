@@ -13,7 +13,7 @@
 
 require('dotenv').config()
 const port=process.env.PORT
-const url = process.env.MONGO_URI
+const url = process.env.MONGO_URL
 
 mongoose
 .connect(url)
