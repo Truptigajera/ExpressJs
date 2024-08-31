@@ -1,53 +1,45 @@
- // router
-  
- const express = require("express");
- const morgan = require("morgan");
- const app = express();
- const mongoose = require("mongoose"); 
- const productRoutes = require("./routes/product.routes");
- const userRoutes = require("./routes/user.routes");
-//  const cors = require("cors");
- const path = require("path");
- const ejs = require("ejs");
- 
-//  console.log(users);
-
 require('dotenv').config()
-const port=process.env.PORT
-const url = process.env.MONGO_URL
+const express = require('express');
+const app = express();
+const morgan = require('morgan');
+const path = require('path')
+const passport = require('passport');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+port= process.env.PORT
+const uri = process.env.MONGO_URI
+app.set("view engine",'ejs')
+const ejs = require('ejs');
+const mongoose = require('mongoose')
 
-mongoose
-.connect(url)
-.then(()=> console.log(`Database connection established success....`))
-.catch(err => console.log(err));
+app.use(session({ 
+    secret: 'secret', 
+    resave: false, 
+    saveUninitialized: true,
+    store: MongoStore.create({mongoUrl:"mongodb+srv://TruptiGajera:truptigajera@cluster0.q8ogvbu.mongodb.net/todolist",collectionName:"sessions"}),
+    cookie:{
+        maxAge:1000*60*60*12   
+     } 
+}));
 
-// app.use(cors());
-app.use(morgan("dev"));
+// const secret = process.env.JWT_SECRET
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
-
-app.use("/public/images",express.static(path.join(__dirname,"public/images")))
-// app.use("/public",express.static(path.join(_dirname,"public")))
+app.use(express.urlencoded({extended:true}))
+app.use(morgan('dev')) 
  
-app.get("/", (req,res)=>{
-  res.send("welcome to Express Server");
-  });
-
-
-  
-app.use("/api/product",productRoutes); 
-app.use("/api/user",userRoutes);
-
-  app.listen(port,()=>{
-    //Database connection    
-    console.log(`server start at http://localhost:${port}`);
+mongoose
+.connect(uri)
+.then(()=> console.log(`Database Conection SuccessFully...`))
+.catch(err=>console.log(err));
     
-  });
+const userRoutes = require('./routes/user.routes');
 
+app.use('/',userRoutes)
 
-  //git checkout -b name
-  //git add .
-  //git commit -m ""
-  //git push -u origin branchname
-
-  
+app.listen(port,()=>{
+    console.log(`server start`);   
+})

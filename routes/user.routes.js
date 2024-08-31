@@ -1,26 +1,30 @@
-const express = require("express");
+require('../helper/passport');
+const express = require('express');
+const {  register, todolist } = require('../controller/user.controller')
 const userRoutes = express.Router();
-const {
-    registerUser,
-    loginUser,
-    getProfile,
-    updateProfile,
-    changePassword,
-    deleteUser,
-     specialUser
-} = require("../controller/user.controller");
-const { verifyToken } = require('../helper/verifyToken');
-const {upload}=require("../helper/imageUpload")
+const passport = require('passport');
+const bcrypt = require('bcrypt')
 
-userRoutes.post("/register", upload.single('profileImage'), registerUser);
-userRoutes.post("/login", loginUser);
-userRoutes.get('/me', verifyToken, getProfile);
-userRoutes.put("/update-profile",verifyToken,updateProfile);
-userRoutes.post('/changepassword', verifyToken, changePassword);
-userRoutes.delete('/deleteuser', verifyToken, deleteUser);
-userRoutes.get('/special',specialUser)
-// userRoutes.post("/reg",specialUser);
+userRoutes.get('/', (req, res, next) => {
+    res.send('<h1>Welcome to Home Page</h1> <p>Please <a href="/login">Login Now</a></p>')
+    next();
+});
+
+userRoutes.get('/login', (req,res)=>{
+    res.render('login')
+});
+
+userRoutes.get('/register', (req,res)=>{
+    res.render('register')
+});
+
+userRoutes.post('/register',register)
+
+userRoutes.post('/login', passport.authenticate('local', {
+        successRedirect: "user", 
+        failureRedirect: 'login',
+        }));
+
+userRoutes.get('/user', todolist)
+
 module.exports = userRoutes;
-
-
-
