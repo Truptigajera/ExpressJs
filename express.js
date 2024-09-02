@@ -1,45 +1,34 @@
 require('dotenv').config()
+
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
-const path = require('path')
-const passport = require('passport');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
+const productRoutes = require('./routes/product.routes');
+const userRoutes = require('./routes/user.routes')
+const { mongoose } = require('mongoose');
+const router = require('./routes/cart.routes');
+const orderRoutes = require('./routes/order.routes')
 port= process.env.PORT
 const uri = process.env.MONGO_URI
-app.set("view engine",'ejs')
-const ejs = require('ejs');
-const mongoose = require('mongoose')
 
-app.use(session({ 
-    secret: 'secret', 
-    resave: false, 
-    saveUninitialized: true,
-    store: MongoStore.create({mongoUrl:"mongodb+srv://TruptiGajera:truptigajera@cluster0.q8ogvbu.mongodb.net/todolist",collectionName:"sessions"}),
-    cookie:{
-        maxAge:1000*60*60*12   
-     } 
-}));
-
-// const secret = process.env.JWT_SECRET
-
-app.use(passport.initialize());
-app.use(passport.session());
+mongoose
+    .connect(uri)
+    .then(() => console.log(`Database connection successFully...`))
+    .catch(err => console.log(err))
 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}))
-app.use(morgan('dev')) 
- 
-mongoose
-.connect(uri)
-.then(()=> console.log(`Database Conection SuccessFully...`))
-.catch(err=>console.log(err));
-    
-const userRoutes = require('./routes/user.routes');
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
 
-app.use('/',userRoutes)
+app.get('/', (req, res) => {
+    res.end("Welcome to Express Server");
+})
 
-app.listen(port,()=>{
-    console.log(`server start`);   
+app.use("/api/product", productRoutes);
+app.use('/api/user',userRoutes)
+app.use('/api/cart',router)
+app.use('/api/order',orderRoutes)
+
+app.listen(port, () => {
+    console.log("Own server started");
 })
