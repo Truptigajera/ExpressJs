@@ -1,14 +1,13 @@
 require('dotenv').config()
-
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const productRoutes = require('./routes/product.routes');
 const userRoutes = require('./routes/user.routes')
-const { mongoose } = require('mongoose');
+const mongoose = require('mongoose');
 const router = require('./routes/cart.routes');
 const orderRoutes = require('./routes/order.routes')
-port= process.env.PORT
+const port= process.env.PORT
 const uri = process.env.MONGO_URI
 
 mongoose

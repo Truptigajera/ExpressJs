@@ -1,6 +1,8 @@
 const User = require("../model/user.model");
 const bcrypt = require('bcrypt');
 const JsonWebToken = require('jsonwebtoken')
+const UserServices = require('../services/user.service')
+const userservice = new UserServices();
 
 exports.addNewUsers = async (req, res) => {
     try {
@@ -8,7 +10,7 @@ exports.addNewUsers = async (req, res) => {
         let user = await User.findOne({ email: email, isDelete: false });
         if (user)
             return res.status(400).json({ message: "User alreday exist..." })
-        user = await User.create({
+        user = await userservice.addNewUsers({
             firstname, lastname, email, password, address, age,
         });
         user.save();
@@ -22,7 +24,7 @@ exports.addNewUsers = async (req, res) => {
 // Get All User
 exports.getAllUser = async (req, res) => {
     try {
-        let users = await User.find({ isDelete: false });
+        let users = await userservice.getAllUser ({ isDelete: false });
         res.status(200).json(users);
     } catch (error) {
         console.log(error);
@@ -34,9 +36,10 @@ exports.getAllUser = async (req, res) => {
 
 exports.getUser = async (req, res) => {
     try {
-        let user = await User.findById(req.query.useId);
-        if (!user)
-            return res.status(404).json({ message: "User not found" })
+        console.log(req.query.userId);
+        let user = await userservice.getUser(req.query.userId);
+        // if (!user)
+        //     return res.status(404).json({ message: "User not found" })
         res.status(200).json(user);
     } catch (error) {
         console.loge(error);
@@ -47,11 +50,11 @@ exports.getUser = async (req, res) => {
 exports.UpdateUser = async (req, res) => {
     try {
 
-        let user = await User.findById(req.query.userId);
+        let user = await userservice.UpdateUser(req.query.userId);
         if (!user) {
             return res.status(404).json({ message: "User Not Found" });
         }
-        user = await User.updateOne({ _id: req.query.userId }, { $set: req.body }, { new: true });
+        user = await userservice.UpdateUser({ _id: req.query.userId }, { $set: req.body }, { new: true });
         // user.save();
         res.status(202).json({ user, message: "User Update SuccessFully" });
     } catch (error) {
@@ -157,7 +160,7 @@ exports.deleteProfile = async (req, res) => {
     try {
         let user = req.user;
         // console.log(user);
-        user = await User.findByIdAndDelete(
+        user = await userservice.UpdateUser(
             user._id,
             { $set: { isDelete: true } },
             { new: true }

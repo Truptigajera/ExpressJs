@@ -1,17 +1,17 @@
 // const products = require("../product.json");
 const Product = require("../model/product.model");
+const ProductServices = require('../services/product.service');
+const productService = new ProductServices();
+const Messages = require('../helper/messages')
 
 exports.addNewProduct = async (req, res) => {
   try {
       const { productName, productPrice, Validity, Quntity } = req.body;
-      let product = await Product.findOne({productName:productName,isDelete:false})
+      let product = await productService.getProduct({title:req.body.title,isDelete:false})
       if(product)
-          return res.status(400).json({message:"Product Alreday Exist..."})
-      product = await Product.create({
-          productName, productPrice, Validity, Quntity,
-      });
-      product.save();
-      res.status(201).json({product,messege:"Product Added"})      
+          return res.status(400).json({message:Messages.ALREADY_Exists})
+      product = await productService.addNewProduct(req.body);
+      res.status(201).json({product,messege:Messages.ADD_NEW_PRODUCT});      
   } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" })
