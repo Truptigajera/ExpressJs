@@ -47,7 +47,7 @@ exports.getUser = async (req, res) => {
     }
 }
 
-exports.UpdateUser = async (req, res) => {
+exports.UpdateUser = async (req, res) => {  
     try {
 
         let user = await userservice.UpdateUser(req.query.userId);
@@ -99,7 +99,7 @@ exports.register = async (req, res) => {
         }
         let hashpassword = await bcrypt.hash(req.body.password, 10);
 
-        user = await User.create({ ...req.body, password: hashpassword,progileImage:imagePath});
+        user = await User.create({ ...req.body, password: hashpassword,profileImage:imagePath});
         user.save();
         res.status(201).json({ user, message: 'User Registartion SuccessFul...' });
 
@@ -111,6 +111,7 @@ exports.register = async (req, res) => {
 
 exports.Login = async (req, res) => {
     try {
+        console.log(req.body);
         let user = await User.findOne({ email: req.body.email, isDelete: false });
         if (!user) {
             return res.status(400).json({ message: "User Not Found" });

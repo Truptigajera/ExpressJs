@@ -8,7 +8,7 @@ const{
 
 const{verifyToken}=require('../helper/verifyToken');
 
-cartRoutes.post("/",verifyToken,addtoCart);
+cartRoutes.post("/addcart",verifyToken,addtoCart);
 cartRoutes.get("/",verifyToken,getAllCarts);
 cartRoutes.put("/",verifyToken,updateCart);
 
